@@ -1,0 +1,312 @@
+{
+  "name": "Scenario 2 - Marketing Consent Withdrawal",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": "YOUR_UNSUBSCRIBE_WEBHOOK_ID",
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 0
+        },
+        "restore": {
+          "parameters": {
+            "hook": {
+              "data": {
+                "editable": "true"
+              },
+              "label": "unsubscribe"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "hook",
+            "type": "hook:gateway-webhook",
+            "label": "Webhook",
+            "required": true
+          },
+          {
+            "name": "maxResults",
+            "type": "number",
+            "label": "Maximum number of results"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "airtable:ActionSearchRecords",
+      "version": 3,
+      "parameters": {
+        "__IMTCONN__": "YOUR_AIRTABLE_CONNECTION_ID"
+      },
+      "mapper": {
+        "base": "YOUR_AIRTABLE_BASE_ID",
+        "table": "YOUR_AIRTABLE_TABLE_ID",
+        "fields": [
+          "Email for Discount Code"
+        ],
+        "formula": "{Email for Discount Code} = \"{{1.email}}\"",
+        "maxRecords": "10",
+        "useColumnId": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "base": {
+              "mode": "chose",
+              "label": "Your Airtable Base"
+            },
+            "sort": {
+              "mode": "chose"
+            },
+            "view": {
+              "mode": "chose"
+            },
+            "table": {
+              "mode": "chose",
+              "label": "Table 1"
+            },
+            "fields": {
+              "mode": "chose",
+              "label": [
+                "Email for Discount Code"
+              ]
+            },
+            "useColumnId": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "airtable3"
+              },
+              "label": "Your Airtable Connection"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:airtable3,airtable2",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "id",
+            "type": "text",
+            "label": "ID"
+          },
+          {
+            "name": "createdTime",
+            "type": "date",
+            "label": "Created Time"
+          },
+          {
+            "name": "Email for Discount Code",
+            "type": "text",
+            "label": "Email for Discount Code"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "module": "airtable:upsertRecord",
+      "version": 3,
+      "parameters": {
+        "__IMTCONN__": "YOUR_AIRTABLE_CONNECTION_ID"
+      },
+      "mapper": {
+        "base": "YOUR_AIRTABLE_BASE_ID",
+        "table": "YOUR_AIRTABLE_TABLE_ID",
+        "record": {
+          "fldDcV3VKSaZ5Tsjo": false
+        },
+        "recordId": "{{2.id}}",
+        "typecast": false,
+        "useColumnId": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 0
+        },
+        "restore": {
+          "expect": {
+            "base": {
+              "label": "Your Airtable Base"
+            },
+            "table": {
+              "label": "Table 1"
+            },
+            "record": {
+              "nested": {
+                "fldDcV3VKSaZ5Tsjo": {
+                  "mode": "chose"
+                },
+                "fldQ40jLTj6G0xdFn": {
+                  "mode": "edit"
+                }
+              }
+            },
+            "typecast": {
+              "mode": "chose"
+            },
+            "useColumnId": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "airtable3"
+              },
+              "label": "Your Airtable Connection"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:airtable3,airtable2",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "expect": [
+          {
+            "name": "base",
+            "type": "select",
+            "label": "Base",
+            "required": true
+          },
+          {
+            "name": "typecast",
+            "type": "boolean",
+            "label": "Smart links",
+            "required": true
+          },
+          {
+            "name": "useColumnId",
+            "type": "boolean",
+            "label": "Use Column ID",
+            "required": true
+          },
+          {
+            "name": "table",
+            "type": "select",
+            "label": "Table",
+            "required": true
+          },
+          {
+            "name": "recordId",
+            "type": "text",
+            "label": "Record ID"
+          },
+          {
+            "name": "record",
+            "type": "collection",
+            "label": "Record",
+            "spec": [
+              {
+                "name": "fldBh2mUs9riLpxcn",
+                "type": "text",
+                "label": "First Name"
+              },
+              {
+                "mode": "edit",
+                "name": "fldQ40jLTj6G0xdFn",
+                "type": "select",
+                "label": "Favorite Dish"
+              },
+              {
+                "name": "fldvXN8yNpMcpybQ7",
+                "type": "text",
+                "label": "Email for Discount Code"
+              },
+              {
+                "name": "fldZFUQ35S4l9CuPR",
+                "type": "text",
+                "label": "What do you like and what could we improve?"
+              },
+              {
+                "name": "fldUANbEr5Kg1DIPj",
+                "type": "text",
+                "label": "What is missing from the local food scene?"
+              },
+              {
+                "name": "fldDcV3VKSaZ5Tsjo",
+                "type": "boolean",
+                "label": "Marketing Consent"
+              }
+            ]
+          }
+        ],
+        "interface": [
+          {
+            "name": "id",
+            "type": "text",
+            "label": "ID"
+          },
+          {
+            "name": "First Name",
+            "type": "text",
+            "label": "First Name"
+          },
+          {
+            "name": "Email for Discount Code",
+            "type": "text",
+            "label": "Email for Discount Code"
+          },
+          {
+            "name": "Marketing Consent",
+            "type": "boolean",
+            "label": "Marketing Consent"
+          }
+        ]
+      }
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "eu2.make.com",
+    "notes": []
+  }
+}

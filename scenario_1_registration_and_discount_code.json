@@ -1,0 +1,659 @@
+{
+  "name": "Scenario 1 - Registration & Discount Code",
+  "flow": [
+    {
+      "id": 1,
+      "module": "tally:watchNewResponse",
+      "version": 1,
+      "parameters": {
+        "__IMTHOOK__": "YOUR_TALLY_WEBHOOK_ID"
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": {
+          "x": 0,
+          "y": 150
+        },
+        "restore": {
+          "parameters": {
+            "__IMTHOOK__": {
+              "data": {
+                "editable": "false"
+              },
+              "label": "Your Tally Webhook"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTHOOK__",
+            "type": "hook:tally",
+            "label": "Webhook",
+            "required": true
+          }
+        ],
+        "interface": [
+          {
+            "name": "eventId",
+            "type": "text",
+            "label": "Event ID"
+          },
+          {
+            "name": "responseId",
+            "type": "text",
+            "label": "Response ID"
+          },
+          {
+            "name": "submissionId",
+            "type": "text",
+            "label": "Submission ID"
+          },
+          {
+            "name": "respondentId",
+            "type": "text",
+            "label": "Respondent ID"
+          },
+          {
+            "name": "formId",
+            "type": "text",
+            "label": "Form ID"
+          },
+          {
+            "name": "formName",
+            "type": "text",
+            "label": "Form Name"
+          },
+          {
+            "name": "createdAt",
+            "type": "date",
+            "label": "Created at"
+          },
+          {
+            "name": "fields",
+            "type": "collection",
+            "label": "Fields",
+            "spec": [
+              {
+                "name": "First Name",
+                "type": "text"
+              },
+              {
+                "name": "Favorite Dish",
+                "spec": {
+                  "type": "text"
+                },
+                "type": "array"
+              },
+              {
+                "name": "Email for Discount Code",
+                "type": "email"
+              },
+              {
+                "name": "What do you like and what could we improve?",
+                "type": "text"
+              },
+              {
+                "name": "What is missing from the local food scene?",
+                "type": "text"
+              },
+              {
+                "name": "Main Marketing Consent",
+                "spec": {
+                  "type": "text"
+                },
+                "type": "array"
+              },
+              {
+                "name": "Main Marketing Consent (GDPR)",
+                "type": "boolean"
+              }
+            ]
+          },
+          {
+            "name": "fieldsById",
+            "type": "collection",
+            "label": "Fields by ID",
+            "spec": [
+              {
+                "name": "question_Xozgpg",
+                "type": "text",
+                "label": "First Name"
+              },
+              {
+                "name": "question_KxGyRg",
+                "spec": {
+                  "type": "text"
+                },
+                "type": "array",
+                "label": "Favorite Dish"
+              },
+              {
+                "name": "question_08alKy",
+                "type": "email",
+                "label": "Email for Discount Code"
+              },
+              {
+                "name": "question_a4vojB",
+                "type": "text",
+                "label": "What do you like and what could we improve?"
+              },
+              {
+                "name": "question_LKOyoy",
+                "type": "text",
+                "label": "What is missing from the local food scene?"
+              },
+              {
+                "name": "question_59MQJo",
+                "spec": {
+                  "type": "text"
+                },
+                "type": "array",
+                "label": "Main Marketing Consent"
+              },
+              {
+                "name": "question_59MQJo_601e4c38-bb5e-4c95-9790-7c6ea09d1187",
+                "type": "boolean",
+                "label": "Main Marketing Consent (GDPR)"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "module": "airtable:ActionSearchRecords",
+      "version": 3,
+      "parameters": {
+        "__IMTCONN__": "YOUR_AIRTABLE_CONNECTION_ID"
+      },
+      "mapper": {
+        "base": "YOUR_AIRTABLE_BASE_ID",
+        "table": "YOUR_AIRTABLE_TABLE_ID",
+        "fields": [
+          "Email for Discount Code"
+        ],
+        "formula": "{Email for Discount Code} = \"{{1.fieldsById.question_08alKy}}\"",
+        "maxRecords": "10",
+        "useColumnId": false
+      },
+      "metadata": {
+        "designer": {
+          "x": 300,
+          "y": 150
+        },
+        "restore": {
+          "expect": {
+            "base": {
+              "mode": "chose",
+              "label": "Your Airtable Base"
+            },
+            "sort": {
+              "mode": "chose"
+            },
+            "view": {
+              "mode": "chose"
+            },
+            "table": {
+              "mode": "chose",
+              "label": "Table 1"
+            },
+            "fields": {
+              "mode": "chose",
+              "label": [
+                "Email for Discount Code"
+              ]
+            },
+            "useColumnId": {
+              "mode": "chose"
+            }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": {
+                "scoped": "true",
+                "connection": "airtable3"
+              },
+              "label": "Your Airtable Connection"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "__IMTCONN__",
+            "type": "account:airtable3,airtable2",
+            "label": "Connection",
+            "required": true
+          }
+        ],
+        "interface": [
+          {
+            "name": "__IMTLENGTH__",
+            "type": "uinteger",
+            "label": "Total number of bundles"
+          },
+          {
+            "name": "__IMTINDEX__",
+            "type": "uinteger",
+            "label": "Bundle order position"
+          },
+          {
+            "name": "id",
+            "type": "text",
+            "label": "ID"
+          },
+          {
+            "name": "createdTime",
+            "type": "date",
+            "label": "Created Time"
+          },
+          {
+            "name": "Email for Discount Code",
+            "type": "text",
+            "label": "Email for Discount Code"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "module": "builtin:BasicRouter",
+      "version": 1,
+      "mapper": null,
+      "metadata": {
+        "designer": {
+          "x": 600,
+          "y": 150
+        }
+      },
+      "routes": [
+        {
+          "flow": [
+            {
+              "id": 2,
+              "module": "airtable:ActionCreateRecord",
+              "version": 3,
+              "parameters": {
+                "__IMTCONN__": "YOUR_AIRTABLE_CONNECTION_ID"
+              },
+              "filter": {
+                "name": "if email not found in Airtable",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{4.`__IMTLENGTH__`}}",
+                      "b": "0",
+                      "o": "number:equal"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "base": "YOUR_AIRTABLE_BASE_ID",
+                "table": "YOUR_AIRTABLE_TABLE_ID",
+                "record": {
+                  "fldBh2mUs9riLpxcn": "{{1.fieldsById.question_Xozgpg}}",
+                  "fldDcV3VKSaZ5Tsjo": true,
+                  "fldQ40jLTj6G0xdFn": "{{1.fields.`Favorite Dish`[]}}",
+                  "fldUANbEr5Kg1DIPj": "{{1.fields.`What is missing from the local food scene?`}}",
+                  "fldZFUQ35S4l9CuPR": "{{1.fields.`What do you like and what could we improve?`}}",
+                  "fldvXN8yNpMcpybQ7": "{{1.fields.`Email for Discount Code`}}"
+                },
+                "typecast": false,
+                "useColumnId": false
+              },
+              "metadata": {
+                "designer": {
+                  "x": 908,
+                  "y": 7
+                },
+                "restore": {
+                  "expect": {
+                    "base": {
+                      "label": "Your Airtable Base"
+                    },
+                    "table": {
+                      "label": "Table 1",
+                      "nested": [
+                        {
+                          "name": "record",
+                          "type": "collection",
+                          "label": "Record",
+                          "spec": [
+                            {
+                              "name": "fldBh2mUs9riLpxcn",
+                              "type": "text",
+                              "label": "First Name"
+                            },
+                            {
+                              "mode": "edit",
+                              "name": "fldQ40jLTj6G0xdFn",
+                              "type": "select",
+                              "label": "Favorite Dish",
+                              "dynamic": true,
+                              "options": [
+                                {
+                                  "label": "Pinsa",
+                                  "value": "Pinsa"
+                                },
+                                {
+                                  "label": "Zapiekanka",
+                                  "value": "Zapiekanka"
+                                },
+                                {
+                                  "label": "No To Burger",
+                                  "value": "No To Burger"
+                                },
+                                {
+                                  "label": "Chicken",
+                                  "value": "Chicken"
+                                },
+                                {
+                                  "label": "Fries",
+                                  "value": "Fries"
+                                },
+                                {
+                                  "label": "Lunch Dishes",
+                                  "value": "Lunch Dishes"
+                                }
+                              ],
+                              "validate": false
+                            },
+                            {
+                              "name": "fldvXN8yNpMcpybQ7",
+                              "type": "text",
+                              "label": "Email for Discount Code"
+                            },
+                            {
+                              "name": "fldZFUQ35S4l9CuPR",
+                              "type": "text",
+                              "label": "What do you like and what could we improve?",
+                              "multiline": true
+                            },
+                            {
+                              "name": "fldUANbEr5Kg1DIPj",
+                              "type": "text",
+                              "label": "What is missing from the local food scene?",
+                              "multiline": true
+                            },
+                            {
+                              "name": "fldDcV3VKSaZ5Tsjo",
+                              "type": "boolean",
+                              "label": "Marketing Consent"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "record": {
+                      "nested": {
+                        "fldDcV3VKSaZ5Tsjo": {
+                          "mode": "chose"
+                        },
+                        "fldQ40jLTj6G0xdFn": {
+                          "mode": "edit"
+                        }
+                      }
+                    },
+                    "typecast": {
+                      "mode": "chose"
+                    },
+                    "useColumnId": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "data": {
+                        "scoped": "true",
+                        "connection": "airtable3"
+                      },
+                      "label": "Your Airtable Connection"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:airtable3,airtable2",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ]
+              }
+            },
+            {
+              "id": 18,
+              "module": "airtable:ActionGetRecord",
+              "version": 3,
+              "parameters": {
+                "__IMTCONN__": "YOUR_AIRTABLE_CONNECTION_ID"
+              },
+              "mapper": {
+                "id": "{{2.id}}",
+                "base": "YOUR_AIRTABLE_BASE_ID",
+                "table": "YOUR_AIRTABLE_TABLE_ID",
+                "useColumnId": false
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1242,
+                  "y": 2
+                },
+                "restore": {
+                  "expect": {
+                    "base": {
+                      "mode": "chose",
+                      "label": "Your Airtable Base"
+                    },
+                    "table": {
+                      "mode": "chose",
+                      "label": "Table 1"
+                    },
+                    "useColumnId": {
+                      "mode": "chose"
+                    }
+                  },
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "data": {
+                        "scoped": "true",
+                        "connection": "airtable3"
+                      },
+                      "label": "Your Airtable Connection"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:airtable3,airtable2",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ],
+                "interface": [
+                  {
+                    "name": "id",
+                    "type": "text",
+                    "label": "ID"
+                  },
+                  {
+                    "name": "First Name",
+                    "type": "text",
+                    "label": "First Name"
+                  },
+                  {
+                    "name": "Email for Discount Code",
+                    "type": "text",
+                    "label": "Email for Discount Code"
+                  },
+                  {
+                    "name": "Marketing Consent",
+                    "type": "boolean",
+                    "label": "Marketing Consent"
+                  },
+                  {
+                    "name": "Code Number",
+                    "type": "number",
+                    "label": "Code Number"
+                  },
+                  {
+                    "name": "Submitted At",
+                    "type": "date",
+                    "label": "Submitted At"
+                  }
+                ]
+              }
+            },
+            {
+              "id": 12,
+              "module": "zoho-mail:sendMail",
+              "version": 1,
+              "parameters": {
+                "__IMTCONN__": "YOUR_ZOHOMAIL_CONNECTION_ID"
+              },
+              "mapper": {
+                "subject": "Thanks for signing up! Claim your discount 🍕🔥",
+                "content": "Hi {{1.fields.`First Name`}}! 👋\r\n\nThank you for joining our loyalty program!\r\n\r\nShow this email when placing your order to get a free item on us! 🍕🔥\n\nDiscount code: {{18.`Code Number`}}\n\nValid for 24 hours from: {{formatDate(now; \"D.MM.YYYY HH:mm\")}}\r\n\nSee you soon!\n[RESTAURANT_NAME]\n\nTo unsubscribe from marketing emails, click here:\n\nhttps://hook.eu2.make.com/YOUR_UNSUBSCRIBE_WEBHOOK_TOKEN?email={{1.fieldsById.question_08alKy}}\n\n",
+                "encoding": "UTF-8",
+                "accountId": "YOUR_ZOHO_ACCOUNT_ID",
+                "ccAddress": [],
+                "bccAddress": [],
+                "mailFormat": "plaintext",
+                "toAddress": [
+                  "{{1.fieldsById.question_08alKy}}"
+                ],
+                "fromAddress": "your-email@yourdomain.com"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 1596,
+                  "y": 6
+                },
+                "restore": {
+                  "expect": {
+                    "encoding": {
+                      "label": "UTF-8"
+                    },
+                    "accountId": {
+                      "mode": "chose",
+                      "label": "your-email@yourdomain.com"
+                    },
+                    "toAddress": {
+                      "items": [
+                        null
+                      ]
+                    },
+                    "mailFormat": {
+                      "label": "Plain Text"
+                    }
+                  },
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "data": {
+                        "scoped": "true",
+                        "connection": "zoho-mail"
+                      },
+                      "label": "Your Zoho Mail Connection"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:zoho-mail",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "flow": [
+            {
+              "id": 15,
+              "module": "zoho-mail:sendMail",
+              "version": 1,
+              "parameters": {
+                "__IMTCONN__": "YOUR_ZOHOMAIL_CONNECTION_ID"
+              },
+              "filter": {
+                "name": "duplicate",
+                "conditions": [
+                  [
+                    {
+                      "a": "{{4.`__IMTLENGTH__`}}",
+                      "b": "0",
+                      "o": "number:greater"
+                    }
+                  ]
+                ]
+              },
+              "mapper": {
+                "subject": "You already have your discount code 🍕🔥",
+                "content": "Hi {{1.fieldsById.question_Xozgpg}}! 👋\r\n\r\nIt looks like you have already received your discount code!\n\nBest regards,\n[RESTAURANT_NAME]\n\n",
+                "encoding": "UTF-8",
+                "accountId": "YOUR_ZOHO_ACCOUNT_ID",
+                "ccAddress": [],
+                "bccAddress": [],
+                "mailFormat": "plaintext",
+                "toAddress": [
+                  "{{1.fieldsById.question_08alKy}}"
+                ],
+                "fromAddress": "your-email@yourdomain.com"
+              },
+              "metadata": {
+                "designer": {
+                  "x": 914,
+                  "y": 387
+                },
+                "restore": {
+                  "parameters": {
+                    "__IMTCONN__": {
+                      "data": {
+                        "scoped": "true",
+                        "connection": "zoho-mail"
+                      },
+                      "label": "Your Zoho Mail Connection"
+                    }
+                  }
+                },
+                "parameters": [
+                  {
+                    "name": "__IMTCONN__",
+                    "type": "account:zoho-mail",
+                    "label": "Connection",
+                    "required": true
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "instant": true,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "eu2.make.com",
+    "notes": []
+  }
+}
